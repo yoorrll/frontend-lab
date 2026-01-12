@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -23,4 +23,32 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.fc .fc-button {
+  background-color: #e5e7eb;
+  border: none;
+  color: #111;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.fc .fc-button-primary:not(:disabled):hover {
+  background-color: #c7d2fe;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: #94a3b8;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: white;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  background-color: #9ca3af;
+  color: white;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-weight: 600;
 }
