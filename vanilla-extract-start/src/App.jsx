@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as styles from './app.css.js';
 import { darkTheme, lightTheme } from './styles/theme.css.js';
 import { Button } from './components/Button/index.js';
+import Input from './components/Input/Input.jsx';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,11 +47,9 @@ export default function App() {
         <section className={styles.card}>
           <h2>Input</h2>
           <div className={styles.formRow}>
-            {/* TODO: Input 컴포넌트를 완성한 후 여기에 인풋들을 추가하세요 */}
-            {/* 
             <Input placeholder="검색어를 입력하세요" />
             <Input placeholder="비활성화 상태" disabled />
-            */}
+
             <p style={{ color: '#6b7280' }}>Input 컴포넌트를 완성해주세요!</p>
           </div>
         </section>
