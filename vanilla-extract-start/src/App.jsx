@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import * as styles from './app.css.js';
 import { darkTheme, lightTheme } from './styles/theme.css.js';
-import { Button } from './components/Button/index.js';
-import Input from './components/Input/Input.jsx';
-import { Modal } from './components/Modal/index.js';
+import { Button } from './components/Button';
+import { Input } from './components/Input';
+import { Modal } from './components/Modal';
+import { Badge } from './components/Badge';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,6 +53,23 @@ export default function App() {
             <Input placeholder="비활성화 상태" disabled />
 
             <p style={{ color: '#6b7280' }}>Input 컴포넌트를 완성해주세요!</p>
+          </div>
+        </section>
+
+        <section className={styles.card}>
+          <h2>Badge (Recipes)</h2>
+          <div className={styles.buttonRow}>
+            <Badge color="primary">Primary</Badge>
+            <Badge color="secondary">Secondary</Badge>
+            <Badge color="success">Success</Badge>
+            <Badge color="warning">Warning</Badge>
+            <Badge color="danger">Danger</Badge>
+            <Badge color="primary" rounded>
+              Rounded
+            </Badge>
+            <Badge color="success" size="lg">
+              Large
+            </Badge>
           </div>
         </section>
 
