@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as styles from './app.css.js';
 import { darkTheme, lightTheme } from './styles/theme.css.js';
+import { Button } from './components/Button/index.js';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,30 +17,28 @@ export default function App() {
             공용 컴포넌트와 토큰을 먼저 만들어두면 화면 작업 속도가 빨라집니다.
           </p>
 
-          {/* <Button
+          <Button
             variant="secondary"
             onClick={() => setIsDarkMode((prev) => !prev)}
           >
             {isDarkMode ? '라이트 모드' : '다크 모드'}
-          </Button> */}
+          </Button>
 
-          <button onClick={() => setIsDarkMode((prev) => !prev)}>
+          {/* <button onClick={() => setIsDarkMode((prev) => !prev)}>
             {isDarkMode ? '라이트 모드' : '다크 모드'}
-          </button>
+          </button> */}
         </header>
 
         <section className={styles.card}>
           <h2>Button Variants</h2>
           <div className={styles.buttonRow}>
-            {/* TODO: Button 컴포넌트를 완성한 후 여기에 버튼들을 추가하세요 */}
-            {/* 
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="ghost">Ghost</Button>
             <Button size="sm">Small</Button>
             <Button size="lg">Large</Button>
             <Button disabled>Disabled</Button>
-            */}
+
             <p style={{ color: '#6b7280' }}>Button 컴포넌트를 완성해주세요!</p>
           </div>
         </section>
