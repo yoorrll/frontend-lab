@@ -3,6 +3,7 @@ import * as styles from './app.css.js';
 import { darkTheme, lightTheme } from './styles/theme.css.js';
 import { Button } from './components/Button/index.js';
 import Input from './components/Input/Input.jsx';
+import { Modal } from './components/Modal/index.js';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,9 +59,10 @@ export default function App() {
           <article className={styles.card}>
             <h3>Modal Preview</h3>
             <p>필요한 순간에만 모달을 열어 사용자 흐름을 방해하지 않습니다.</p>
-            {/* TODO: Modal 컴포넌트를 완성한 후 아래 주석을 해제하세요 */}
-            {/* <Button onClick={() => setIsModalOpen(true)}>모달 열기</Button> */}
-            <button onClick={() => setIsModalOpen(true)}>모달 열기</button>
+
+            <Button onClick={() => setIsModalOpen(true)}>모달 열기</Button>
+
+            {/* <button onClick={() => setIsModalOpen(true)}>모달 열기</button> */}
           </article>
           <article className={styles.card}>
             <h3>Design Tokens</h3>
@@ -74,8 +76,6 @@ export default function App() {
           </article>
         </section>
       </div>
-
-      {/* TODO: Modal 컴포넌트를 완성한 후 아래 주석을 해제하세요 */}
 
       {isModalOpen ? (
         <Modal title="알림" onClose={() => setIsModalOpen(false)}>
