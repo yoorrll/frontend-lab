@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as styles from '@/styles/home.css.js';
+import { SearchLayout } from '@/components/layouts/SearchLayout';
 
 export default function Home() {
   const [recommendation, setRecommendation] = useState(null);
@@ -22,3 +23,7 @@ export default function Home() {
     </div>
   );
 }
+
+Home.getLayout = (page) => {
+  return <SearchLayout>{page}</SearchLayout>;
+};
