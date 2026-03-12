@@ -1,1 +1,1 @@
-export { default as GlobalLayout } from './GlobalLayout.jsx';
+export { default } from './GlobalLayout.jsx';
