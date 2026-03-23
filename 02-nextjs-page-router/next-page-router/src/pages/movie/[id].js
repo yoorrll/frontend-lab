@@ -1,8 +1,9 @@
 import MovieDetail from '@/components/MovieDetail';
-import { fetchOneMovie } from '@/lib/movie';
+import { fetchOneMovie } from '@/lib/movie.server';
 
 export default function Page({ movie }) {
-  if (!movie) return <div>로딩 실패</div>;
+  if (!movie)
+    return <div className="container">영화 정보를 불러오는 중...</div>;
 
   return (
     <div className="container">

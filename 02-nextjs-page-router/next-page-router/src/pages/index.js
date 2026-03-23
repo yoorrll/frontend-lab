@@ -2,7 +2,7 @@ import * as styles from '@/styles/home.css.js';
 import SearchLayout from '@/components/layouts/SearchLayout';
 import MovieItem from '@/components/MovieItem';
 import { useEffect } from 'react';
-import { fetchMovies, fetchNowPlayingMovies } from '@/lib/movie';
+import * as serverAPI from '@/lib/movie.server';
 
 // 3. Props로 서버 데이터 받음(movies, data)
 export default function Home({ nowPlaying, allMovies, data }) {
@@ -42,14 +42,13 @@ Home.getLayout = (page) => {
   return <SearchLayout>{page}</SearchLayout>;
 };
 
-export const getServerSideProps = async (context) => {
+export const getStaticProps = async () => {
+  console.log('Build Time Execution: Home Page Created');
+
   try {
-    // 1. Server Side Execution (Server Only)
-    // 🚀 Promise.all로 병렬 요청 (속도 향상!)
-    console.log('Server Side Execution:', context.req.url);
     const [nowPlaying, allMovies] = await Promise.all([
-      fetchNowPlayingMovies(),
-      fetchMovies(),
+      serverAPI.fetchNowPlayingMovies(),
+      serverAPI.fetchMovies(),
     ]);
 
     const nowPlayingIds = nowPlaying.map((movie) => movie.id);
@@ -68,6 +67,12 @@ export const getServerSideProps = async (context) => {
     };
   } catch (error) {
     console.error('API Fetch Error:', error);
-    return { notFound: true };
+    return {
+      props: {
+        nowPlaying: [],
+        allMovies: [],
+        error: 'BACKEND_UNAVAILABLE',
+      },
+    };
   }
 };
