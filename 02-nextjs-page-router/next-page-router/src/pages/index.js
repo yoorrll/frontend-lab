@@ -64,6 +64,7 @@ export const getStaticProps = async () => {
         allMovies: filteredMovies,
         data,
       },
+      revalidate: 10,
     };
   } catch (error) {
     console.error('API Fetch Error:', error);
