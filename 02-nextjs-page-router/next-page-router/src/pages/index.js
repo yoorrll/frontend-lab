@@ -2,6 +2,7 @@ import * as styles from '@/styles/home.css.js';
 import SearchLayout from '@/components/layouts/SearchLayout';
 import MovieItem from '@/components/MovieItem';
 import { useEffect } from 'react';
+import { fetchMovies, fetchNowPlayingMovies } from '@/lib/movie';
 
 // 3. Props로 서버 데이터 받음(movies, data)
 export default function Home({ nowPlaying, allMovies, data }) {
@@ -41,43 +42,32 @@ Home.getLayout = (page) => {
   return <SearchLayout>{page}</SearchLayout>;
 };
 
-// 정적 페이지
 export const getServerSideProps = async (context) => {
   try {
-    // 1️⃣ Server Side Execution (Server Only)
+    // 1. Server Side Execution (Server Only)
+    // 🚀 Promise.all로 병렬 요청 (속도 향상!)
     console.log('Server Side Execution:', context.req.url);
-    const [nowPlayingResponse, allMoviesResponse] = await Promise.all([
-      fetch(`${process.env.API_URL}/api/movies/now-playing`),
-      fetch(`${process.env.API_URL}/api/movies`),
+    const [nowPlaying, allMovies] = await Promise.all([
+      fetchNowPlayingMovies(),
+      fetchMovies(),
     ]);
 
-    const [{ movies: nowPlaying }, { movies: allMovies }] = await Promise.all([
-      nowPlayingResponse.json(),
-      allMoviesResponse.json(),
-    ]);
-
-    // 보기 불편해서 중복 제거
     const nowPlayingIds = nowPlaying.map((movie) => movie.id);
     const filteredMovies = allMovies.filter(
       (movie) => !nowPlayingIds.includes(movie.id),
     );
+
     const data = 'Next Cinema SSR Mode';
 
     return {
       props: {
-        nowPlaying: nowPlaying.slice(0, 6), // 6개만
+        nowPlaying: nowPlaying.slice(0, 6),
         allMovies: filteredMovies,
         data,
       },
     };
   } catch (error) {
     console.error('API Fetch Error:', error);
-    return {
-      props: {
-        nowPlaying: [],
-        allMovies: [],
-        error: 'BACKEND_UNAVAILABLE',
-      },
-    };
+    return { notFound: true };
   }
 };
