@@ -1,7 +1,13 @@
 import MovieDetail from '@/components/MovieDetail';
-import { fetchOneMovie } from '@/lib/movie.server';
+import { fetchMovies, fetchOneMovie } from '@/lib/movie.server';
+import { useRouter } from 'next/router';
 
 export default function Page({ movie }) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div className="container">로딩 중...</div>;
+  }
+
   if (!movie)
     return <div className="container">영화 정보를 불러오는 중...</div>;
 
@@ -12,18 +18,27 @@ export default function Page({ movie }) {
   );
 }
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params; // URL 파라미터 꺼내기
+export const getStaticPaths = async () => {
+  const movies = await fetchMovies();
 
-  // 💡 입력값 검증: 숫자가 아니면 404 처리 (보안 및 에러 방지)
-  const movieId = Number(id);
-  if (!Number.isInteger(movieId) || movieId <= 0) {
-    return {
-      notFound: true,
-    };
-  }
+  const movieIds = movies.slice(0, 10).map((movie) => ({
+    params: { id: movie.id.toString() },
+  }));
 
-  const movie = await fetchOneMovie(movieId);
+  return {
+    paths: movieIds,
+    //fallback: false -> 만들지 않은 페이지는 404로 처리 - 보통 바뀌지 않는 곳에 사용
+    // fallback: 'blocking' -> 만들지 않은 페이지는 SSR로 처리 - 보통 자주 바뀌는 곳에 사용
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async (context) => {
+  const { id: movieId } = context.params; // URL 파라미터 꺼내기
+
+  console.log('Id', movieId);
+
+  const movie = await fetchOneMovie(Number(movieId));
 
   if (!movie) {
     return {
