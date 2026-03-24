@@ -1,0 +1,69 @@
+# workflow name
+name: Github Actions Test
+
+# Event: 실행되는 시점을 설정
+
+# main 브랜치에 push 또는 pull request가 발생할 때마다 Workflow가 실행됨
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 하나의 Workflow는 1개 이상의 job으로 구성됨
+# 여러 Job은 기본적으로 병렬로 수행됨
+jobs:
+  # Job을 식별하기 위한 id
+  MyFirstJob:
+    # Job이 실행될 환경 설정
+    runs-on: ubuntu-latest
+
+    # Job이 수행할 작업을 정의, Job은 1개 이상의 Step으로 구성됨
+    # Step: 특정 작업을 수행하는 가장 작은 단위
+    steps:
+      - name: Hello World 찍기
+        run: echo "Hello, World!"
+
+      - name: 여러 명령어 문장 작성하기
+        run: |
+          echo "첫 번째 명령어"
+          echo "두 번째 명령어"
+          echo "세 번째 명령어"
+
+      - name: Github Actions 자체의 변수 사용하기
+        run: |
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+
+      # Settings > Secrets and variables > Actions secret에 값을 등록해 사용
+      # 민감한 값을 변수로 사용할 땐 Secret으로 등록하여 사용하는 것을 권장
+      - name: 노출되면 안 되는 값
+        run: echo ${{ secrets.MY_SECRET }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: MyFirstJob
+
+    steps:
+      # 내 레포지토리 코드 가져오기
+      - uses: actions/checkout@v4
+
+      # pnpm 설치 (Node 설치 전에 먼저)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "pnpm" # pnpm 의존성을 캐싱해서 빌드 속도 향상
+
+      # 의존성 설치
+      - name: Install dependencies
+        run: pnpm install
+
+      # 빌드 실행
+      - name: Run Build
+        run: pnpm build
