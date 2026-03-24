@@ -1,6 +1,7 @@
 import MovieItem from '@/components/MovieItem';
 import SearchLayout from '@/components/layouts/SearchLayout';
 import { fetchSearchMovies } from '@/lib/movie.client';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -44,21 +45,27 @@ export default function Search() {
   }, [router.isReady, q]);
 
   return (
-    <div>
-      {/* 4️⃣ 로딩 상태 표시 (UX) */}
-      {isLoading ? (
-        <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>
-      ) : (
-        movies.map((movie) => <MovieItem key={movie.id} {...movie} />)
-      )}
+    <>
+      <Head>
+        <title>Next Cinema | 검색</title>
+        <meta name="description" content="영화 검색 결과 페이지" />
+      </Head>
+      <main>
+        {/* 4️⃣ 로딩 상태 표시 (UX) */}
+        {isLoading ? (
+          <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>
+        ) : (
+          movies.map((movie) => <MovieItem key={movie.id} {...movie} />)
+        )}
 
-      {/* 검색 결과가 없을 때의 UI */}
-      {!isLoading && movies.length === 0 && q && (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-          검색 결과가 없습니다.
-        </div>
-      )}
-    </div>
+        {/* 검색 결과가 없을 때의 UI */}
+        {!isLoading && movies.length === 0 && q && (
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            검색 결과가 없습니다.
+          </div>
+        )}
+      </main>
+    </>
   );
 }
 

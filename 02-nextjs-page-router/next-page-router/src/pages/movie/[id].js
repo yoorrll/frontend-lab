@@ -1,5 +1,6 @@
 import MovieDetail from '@/components/MovieDetail';
 import { fetchMovies, fetchOneMovie } from '@/lib/movie.server';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 export default function Page({ movie }) {
@@ -12,9 +13,15 @@ export default function Page({ movie }) {
     return <div className="container">영화 정보를 불러오는 중...</div>;
 
   return (
-    <div className="container">
-      <MovieDetail {...movie} />
-    </div>
+    <>
+      <Head>
+        <title>{movie.title} | Next Cinema</title>
+        <meta name="description" content={movie.overview} />
+      </Head>
+      <main className="container">
+        <MovieDetail {...movie} />
+      </main>
+    </>
   );
 }
 

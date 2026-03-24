@@ -3,6 +3,7 @@ import SearchLayout from '@/components/layouts/SearchLayout';
 import MovieItem from '@/components/MovieItem';
 import { useEffect } from 'react';
 import * as serverAPI from '@/lib/movie.server';
+import Head from 'next/head';
 
 // 3. Props로 서버 데이터 받음(movies, data)
 export default function Home({ nowPlaying, allMovies, data }) {
@@ -16,25 +17,31 @@ export default function Home({ nowPlaying, allMovies, data }) {
   console.log('Server & Client Execution:', data);
 
   return (
-    <div className={styles.container}>
-      <section>
-        <h3>지금 상영중인 영화</h3>
-        <div className={styles.list}>
-          {nowPlaying.map((movie) => (
-            <MovieItem key={`recommended-${movie.id}`} {...movie} />
-          ))}
-        </div>
-      </section>
+    <>
+      <Head>
+        <title>Next Cinema | 홈</title>
+        <meta name="description" content="Next Cinema 홈 페이지" />
+      </Head>
+      <main className={styles.container}>
+        <section>
+          <h3>지금 상영중인 영화</h3>
+          <div className={styles.list}>
+            {nowPlaying.map((movie) => (
+              <MovieItem key={`recommended-${movie.id}`} {...movie} />
+            ))}
+          </div>
+        </section>
 
-      <section>
-        <h3>등록된 모든 영화</h3>
-        <div className={styles.list}>
-          {allMovies.map((movie) => (
-            <MovieItem key={`all-${movie.id}`} {...movie} />
-          ))}
-        </div>
-      </section>
-    </div>
+        <section>
+          <h3>등록된 모든 영화</h3>
+          <div className={styles.list}>
+            {allMovies.map((movie) => (
+              <MovieItem key={`all-${movie.id}`} {...movie} />
+            ))}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 
