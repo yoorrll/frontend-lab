@@ -1,5 +1,6 @@
 import '@/styles/reset.css';
 import '@/styles/global.css';
+import GlobalLayout from '@/components/layouts/GlobalLayout';
 
 export const metadata = {
   title: 'Create Next App',
@@ -9,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <GlobalLayout>{children}</GlobalLayout>
+      </body>
     </html>
   );
 }
